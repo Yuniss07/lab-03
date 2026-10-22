@@ -87,8 +87,12 @@ _Your answer here_
 
 # join the datasets
 jan_feb_flights <- jan_feb_flights %>%
+
   left_join(weather, by = c("origin", "year", "month", "day", "hour"))
 jan_feb_flights
+
+  left_join(weather, by = c("origin", "year", "month", "day", "hour")) 
+
 ```
 
 ```{r}
@@ -104,6 +108,16 @@ jan_feb_flights %>%
   summarise(avg_wind_speed = mean(wind_speed, na.rm = TRUE),
             sd_wind_speed = sd(wind_speed, na.rm = TRUE),
             n())
+jan_feb_flights %>%
+  mutate(gust_present = !is.na(wind_gust)) %>%
+  group_by(gust_present) %>%
+  summarise(
+    n = n(),
+    mean = mean(wind_speed),
+    median= median(wind_speed)
+  )
+
+
 
 ```
 
